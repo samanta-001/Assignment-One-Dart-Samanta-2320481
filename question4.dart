@@ -1,23 +1,5 @@
 // Question 4: Inheritance & Polymorphism (Difficulty: 4/5) ⭐⭐⭐⭐
-/**
- * EXPECTED OUTPUT:
- * Vehicle Info: 2020 Toyota Camry (4 doors)
- * Starting the car engine...
- * Stopping the car engine...
- * 
- * Vehicle Info: 2021 Honda CBR (Has windshield: true)
- * Starting the motorcycle engine...
- * Stopping the motorcycle engine...
- * 
- * Car age: <Value> years
- * Motorcycle age: <Value> years
- */
 
-// 1. Abstract Class Vehicle:
-//    - Properties: String brand, String model, int year
-//    - Abstract method: void start()
-//    - Abstract method: void stop()
-//    - Concrete method: void displayInfo()
 abstract class Vehicle {
   String brand;
   String model;
@@ -25,26 +7,22 @@ abstract class Vehicle {
 
   Vehicle(this.brand, this.model, this.year);
 
-  // Abstract methods
+  // Abstract methods - must be implemented by child classes
   void start();
   void stop();
 
-  // Concrete method
+  // Concrete method - shared by all vehicles
   void displayInfo() {
-    // TODO: Display vehicle information
+    print("Vehicle Info: $year $brand $model");
   }
 
-  // Add a method to calculate vehicle age (current year - vehicle year)
+  // Calculate how old the vehicle is
   int calculateAge() {
-    // TODO: Calculate and return vehicle age
-    return 0;
+    return 2026 - year;
   }
 }
 
-// 2. Concrete Classes:
-//    - Car extends Vehicle
-//      - Additional property: int numberOfDoors
-//      - Override start() and stop() methods
+// Car class - extends Vehicle
 class Car extends Vehicle {
   int numberOfDoors;
 
@@ -53,23 +31,21 @@ class Car extends Vehicle {
 
   @override
   void start() {
-    // TODO: Implement car start method
+    print("Starting the car engine...");
   }
 
   @override
   void stop() {
-    // TODO: Implement car stop method
+    print("Stopping the car engine...");
   }
 
   @override
   void displayInfo() {
-    // TODO: Override to show car-specific info as shown in expected output
+    print("Vehicle Info: $year $brand $model ($numberOfDoors doors)");
   }
 }
 
-//    - Motorcycle extends Vehicle
-//      - Additional property: bool hasWindshield
-//      - Override start() and stop() methods
+// Motorcycle class - extends Vehicle
 class Motorcycle extends Vehicle {
   bool hasWindshield;
 
@@ -78,25 +54,38 @@ class Motorcycle extends Vehicle {
 
   @override
   void start() {
-    // TODO: Implement motorcycle start method
+    print("Starting the motorcycle engine...");
   }
 
   @override
   void stop() {
-    // TODO: Implement motorcycle stop method
+    print("Stopping the motorcycle engine...");
   }
 
   @override
   void displayInfo() {
-    // TODO: Override to show motorcycle-specific info as shown in expected output
+    print("Vehicle Info: $year $brand $model (Has windshield: $hasWindshield)");
   }
 }
 
 void main() {
-  // 3. Create a list of vehicles and demonstrate polymorphism by calling start(), stop(), and displayInfo() on each vehicle
-  // TODO: Create a list containing one Car and one Motorcycle
+  // Create one Car and one Motorcycle
+  Car car = Car("Toyota", "Camry", 2020, 4);
+  Motorcycle motorcycle = Motorcycle("Honda", "CBR", 2021, true);
 
-  // TODO: Loop through the list and call displayInfo(), start(), and stop()
+  // Create a list of vehicles - this is polymorphism
+  // Both Car and Motorcycle are stored as Vehicle type
+  List<Vehicle> vehicles = [car, motorcycle];
 
-  // TODO: Print the age of each vehicle using calculateAge()
+  // Loop through and call methods on each vehicle
+  for (Vehicle vehicle in vehicles) {
+    vehicle.displayInfo();
+    vehicle.start();
+    vehicle.stop();
+    print(""); // empty line between vehicles
+  }
+
+  // Print age of each vehicle
+  print("Car age: ${car.calculateAge()} years");
+  print("Motorcycle age: ${motorcycle.calculateAge()} years");
 }

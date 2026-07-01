@@ -1,47 +1,24 @@
 // Question 5: Advanced Features & Mixins (Difficulty: 5/5) ⭐⭐⭐⭐⭐
-/**
- * EXPECTED OUTPUT:
- * Manager: John Smith (ID: M001, Department: IT, Team Size: 5)
- * Job Title: Manager
- * Base Salary: 8000.0
- * Calculated Salary: 9000.0
- * Payment processed: 9000.0
- * Report: Monthly report for John Smith in IT department
- * 
- * Developer: Alice Johnson (ID: D001, Department: IT, Language: Dart)
- * Job Title: Senior Developer
- * Base Salary: 6000.0
- * Calculated Salary: 6500.0
- * Payment processed: 6500.0
- */
 
-// 1. Mixin Payable:
-//    - Method: double calculateSalary(double baseSalary, double bonus)
-//    - Method: void processPayment(double amount)
+// 1. Mixin Payable - handles salary and payment
 mixin Payable {
   double calculateSalary(double baseSalary, double bonus) {
-    // TODO: Calculate total salary (base + bonus)
-    return 0.0;
+    return baseSalary + bonus;
   }
 
   void processPayment(double amount) {
-    // TODO: Process payment and print "Payment processed: <amount>"
+    print("Payment processed: $amount");
   }
 }
 
-// 2. Mixin Reportable:
-//    - Method: String generateReport(String employeeName, String department)
+// 2. Mixin Reportable - handles report generation
 mixin Reportable {
   String generateReport(String employeeName, String department) {
-    // TODO: Generate and return report string: "Report: Monthly report for <name> in <department> department"
-    return "";
+    return "Report: Monthly report for $employeeName in $department department";
   }
 }
 
-// 3. Abstract Class Employee:
-//    - Properties: String name, String id, String department
-//    - Abstract method: String getJobTitle()
-//    - Abstract method: double getBaseSalary()
+// 3. Abstract Employee class
 abstract class Employee {
   String name;
   String id;
@@ -53,14 +30,12 @@ abstract class Employee {
   double getBaseSalary();
 
   void displayInfo() {
-    // TODO: Display employee information
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary()}");
   }
 }
 
-// 4. Concrete Classes:
-//    - Manager extends Employee with Payable and Reportable
-//      - Additional property: int teamSize
-//      - Override required methods
+// 4. Manager class - uses both Payable and Reportable mixins
 class Manager extends Employee with Payable, Reportable {
   int teamSize;
 
@@ -69,25 +44,28 @@ class Manager extends Employee with Payable, Reportable {
 
   @override
   String getJobTitle() {
-    // TODO: Return manager job title
-    return "";
+    return "Manager";
   }
 
   @override
   double getBaseSalary() {
-    // TODO: Return manager base salary
-    return 0.0;
+    return 8000.0;
   }
 
   @override
   void displayInfo() {
-    // TODO: Override to show manager-specific info as shown in expected output
+    print("Manager: $name (ID: $id, Department: $department, Team Size: $teamSize)");
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary()}");
+
+    double salary = calculateSalary(getBaseSalary(), 1000.0);
+    print("Calculated Salary: $salary");
+    processPayment(salary);
+    print(generateReport(name, department));
   }
 }
 
-//    - Developer extends Employee with Payable
-//      - Additional property: String programmingLanguage
-//      - Override required methods
+// 5. Developer class - uses only Payable mixin
 class Developer extends Employee with Payable {
   String programmingLanguage;
 
@@ -96,34 +74,38 @@ class Developer extends Employee with Payable {
 
   @override
   String getJobTitle() {
-    // TODO: Return developer job title
-    return "";
+    return "Senior Developer";
   }
 
   @override
   double getBaseSalary() {
-    // TODO: Return developer base salary
-    return 0.0;
+    return 6000.0;
   }
 
   @override
   void displayInfo() {
-    // TODO: Override to show developer-specific info as shown in expected output
+    print("Developer: $name (ID: $id, Department: $department, Language: $programmingLanguage)");
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary()}");
+
+    double salary = calculateSalary(getBaseSalary(), 500.0);
+    print("Calculated Salary: $salary");
+    processPayment(salary);
   }
 }
 
 void main() {
-  // 5. Create employees and demonstrate:
-  //    - Salary calculation with bonus
-  //    - Payment processing
-  //    - Report generation (for managers)
-  //    - Display all employee information
+  // Create Manager
+  Manager manager = Manager("John Smith", "M001", "IT", 5);
 
-  // TODO: Create one Manager and one Developer with the details shown in expected output
+  // Create Developer
+  Developer developer = Developer("Alice Johnson", "D001", "IT", "Dart");
 
-  // TODO: Demonstrate salary calculation and payment processing for both
+  // Display Manager info with salary and report
+  manager.displayInfo();
 
-  // TODO: Generate and print report for the Manager
+  print(""); // empty line between employees
 
-  // TODO: Display information for both employees
+  // Display Developer info with salary
+  developer.displayInfo();
 }
